@@ -21,7 +21,7 @@ export class AppController {
   ) {}
 
   @Post('create-record')
-  async getHello(
+  async createRecord(
     @Body() body: CreateRecordPostOptions,
     @Res() res: Response
   ): Promise<Response> {
