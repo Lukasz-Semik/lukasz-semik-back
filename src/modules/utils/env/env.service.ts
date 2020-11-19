@@ -21,7 +21,11 @@ export class EnvService {
 
   constructor() {
     const environment = process.env.NODE_ENV || 'development';
-    const data: any = dotenv.parse(fs.readFileSync(`${environment}.env`));
+
+    const data: any =
+      environment === 'production'
+        ? process.env
+        : dotenv.parse(fs.readFileSync(`${environment}.env`));
 
     data.APP_ENV = environment;
     data.APP_DEBUG = data.APP_DEBUG === 'true' ? true : false;
