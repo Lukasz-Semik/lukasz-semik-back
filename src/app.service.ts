@@ -13,9 +13,14 @@ export class AppService {
     @InjectRepository(Record)
     private readonly recordRepo: Repository<Record>
   ) {}
+  private orderRecords(records: Record[]): Record[] {
+    return orderBy(records, ['value'], ['desc']);
+  }
+
   async getAllRecords(): Promise<Record[]> {
     return this.recordRepo.find();
   }
+
   async createRecord(value: number): Promise<number> {
     try {
       if (value === 0) {
@@ -30,9 +35,10 @@ export class AppService {
       });
 
       const allRecords = await this.recordRepo.find();
-      const orderedRecords = orderBy(allRecords, ['value'], ['desc']);
 
-      const recordIdsToRemove = orderedRecords.slice(100).map(r => r.id);
+      const recordIdsToRemove = this.orderRecords(allRecords)
+        .slice(100)
+        .map(r => r.id);
 
       this.recordRepo
         .createQueryBuilder('record')
@@ -42,7 +48,9 @@ export class AppService {
 
       const updatedRecrods = await this.recordRepo.find();
 
-      const newRanking = findIndex(updatedRecrods, r => r.id === record.id) + 1;
+      const newRanking =
+        findIndex(this.orderRecords(updatedRecrods), r => r.id === record.id) +
+        1;
 
       return newRanking;
     } catch (err) {
