@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 
 import { AppService } from './app.service';
@@ -19,6 +19,18 @@ export class AppController {
     private readonly appService: AppService,
     private mailsService: MailsService
   ) {}
+
+  @Get('all')
+  async getRecords(@Res() res: Response) {
+    const records = await this.appService.getAllRecords();
+
+    return res.status(HttpStatus.OK).json({
+      msg: 'All records',
+      data: {
+        records,
+      },
+    });
+  }
 
   @Post('create-record')
   async createRecord(

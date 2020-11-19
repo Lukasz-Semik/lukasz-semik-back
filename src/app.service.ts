@@ -13,6 +13,9 @@ export class AppService {
     @InjectRepository(Record)
     private readonly recordRepo: Repository<Record>
   ) {}
+  async getAllRecords(): Promise<Record[]> {
+    return this.recordRepo.find();
+  }
   async createRecord(value: number): Promise<number> {
     try {
       if (value === 0) {
