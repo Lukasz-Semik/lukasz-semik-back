@@ -25,12 +25,12 @@ export class EnvService {
 
     const data: any =
       environment === 'production'
-        ? parse(process.env.DATA_BASE_URL)
+        ? parse(process.env.DATABASE_URL)
         : dotenv.parse(fs.readFileSync(`${environment}.env`));
-
+    console.log({ env: process.env, data });
     data.APP_ENV = environment;
     data.APP_DEBUG = data.APP_DEBUG === 'true';
-    data.DB_PORT = parseInt(data.DB_PORT, 0);
+    data.DB_PORT = parseInt(process.env.DB_PORT, 0);
 
     this.envData = data as EnvData;
   }
