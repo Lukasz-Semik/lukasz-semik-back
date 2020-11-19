@@ -7,7 +7,7 @@ import { EnvService } from './modules/utils/env/env.service';
 export function DatabaseOrmModule(): DynamicModule {
   const envService = new EnvService();
   const config = envService.read();
-
+  console.log('config - orm', { config });
   return TypeOrmModule.forRoot({
     type: config.DB_TYPE,
     host: config.DB_HOST,
