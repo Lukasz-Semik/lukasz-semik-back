@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
+import { parse } from 'pg-connection-string';
 
 export interface EnvData {
   // application
@@ -24,11 +25,11 @@ export class EnvService {
 
     const data: any =
       environment === 'production'
-        ? process.env
+        ? parse(process.env.DATA_BASE_URL)
         : dotenv.parse(fs.readFileSync(`${environment}.env`));
 
     data.APP_ENV = environment;
-    data.APP_DEBUG = data.APP_DEBUG === 'true' ? true : false;
+    data.APP_DEBUG = data.APP_DEBUG === 'true';
     data.DB_PORT = parseInt(data.DB_PORT, 0);
 
     this.envData = data as EnvData;
