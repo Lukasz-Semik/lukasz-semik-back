@@ -1,6 +1,5 @@
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
-import { parse } from 'pg-connection-string';
 
 export interface EnvData {
   // application
