@@ -32,6 +32,13 @@ export class AppController {
     });
   }
 
+  @Get('wake-up')
+  async wakeUp(@Res() res: Response) {
+    return res.status(HttpStatus.OK).json({
+      msg: 'Server got shot',
+    });
+  }
+
   @Post('create-record')
   async createRecord(
     @Body() body: CreateRecordPostOptions,
